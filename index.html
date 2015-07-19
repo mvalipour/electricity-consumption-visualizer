@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+              rel="stylesheet"></link>
+        <style media="screen">
+        #chartdiv {
+            width		: 100%;
+            height		: 500px;
+            font-size	: 11px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Electricity consumption!</h1>
+            <div valid-setup>
+                <div id="chartdiv"></div>
+                <hr>
+            </div>
+            <h2>How to setup</h2>
+            <h4>Step 1. Data</h4>
+            <p>Add your consumption data to a google spreadsheet with the following format:<p>
+            <center>
+                <img src="http://i.imgur.com/4eU1mc9.png" />
+            </center>
+            <h4>Step 2. Publish the data</h4>
+            <p>On google drive go to `file > publish to the web` and publish your spreadsheet.<p>
+            <center>
+                <img src="http://i.imgur.com/cMiaADr.png" />
+            </center>
+            <h4>Step 3. Use your key!</h4>
+            <p>Your publish url looks something like this:</p>
+            <blockquote>
+                <p>https://docs.google.com/spreadsheets/d/<code>&lt;key></code>/pubhtml?...</p>
+            </blockquote>
+            <p>
+                Take the key and pass it to this page as a query string:
+            </p>
+            <blockquote>
+                <p><span site-url></span>/?key=<code>&lt;key></code></p>
+            </blockquote>
+
+            <h4>Step 4. Reload the page and bingo!</h4>
+            <hr>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js" ></script>
+        <script src="src/app.js" ></script>
+
+        <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+        <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="src/chart.js" ></script>
+
+        <script type="text/javascript">
+            $('[valid-setup]').toggle(app.validSetup);
+            $('[invalid-setup]').toggle(!app.validSetup);
+
+            if(app.validSetup){
+                app.getData(function (data) {
+                    app.renderChart("chartdiv", data);
+                });
+            }
+
+            $('[site-url]').html(window.location.origin);
+        </script>
+    </body>
+</html>
